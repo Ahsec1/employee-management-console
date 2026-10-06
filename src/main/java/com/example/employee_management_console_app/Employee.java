@@ -7,13 +7,17 @@ public abstract class Employee {
     private int age;
     private String gender;
     private String type;
+    private double salary;
+    private String department;
 
-    public Employee (int id, String name, int age, String gender, String type){
+    public Employee (int id, String name, int age, String gender, String type, double salary, String department){
         this.id = id;
         this.name = name;
         this.age = age;
         this.gender = gender;
         this.type = type;
+        this.salary = salary;
+        this.department = department;
     }
 
     public int getId() {
@@ -34,6 +38,14 @@ public abstract class Employee {
 
     public String getType(){
         return type;
+    }
+
+    public double getSalary() {
+        return salary;
+    }
+
+    public String getDepartment() {
+        return department;
     }
 
     public String getProgrammingLanguage() {
