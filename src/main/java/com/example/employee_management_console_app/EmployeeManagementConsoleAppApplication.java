@@ -1,8 +1,14 @@
 package com.example.employee_management_console_app;
 
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cglib.core.Local;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
+import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
+import java.util.stream.IntStream;
 
 @SpringBootApplication
 public class EmployeeManagementConsoleAppApplication {
@@ -10,6 +16,8 @@ public class EmployeeManagementConsoleAppApplication {
     static void main(){
 
         EmployeeManager manageEmployee = new EmployeeManager();
+        EmployeeReport report = new EmployeeReport(manageEmployee.getAllEmployees());
+        EmployeeTablePrint printTable = new EmployeeTablePrint();
 
         Scanner scanner = new Scanner(System.in);
 
@@ -26,7 +34,10 @@ public class EmployeeManagementConsoleAppApplication {
             System.out.println("5. Sort by Salary");
             System.out.println("6. Search by Department");
             System.out.println("7. Grouped by Department");
-            System.out.println("8. Exit");
+            System.out.println("8. Top Earners Of The Company");
+            System.out.println("9. Average Salary by Department");
+            System.out.println("10. Employees Hired In The Last Year");
+            System.out.println("11. Exit");
             System.out.println("=================================");
             System.out.print("Enter choice: ");
 
@@ -55,6 +66,19 @@ public class EmployeeManagementConsoleAppApplication {
                     System.out.print("Department: ");
                     String department = scanner.next();
 
+                    LocalDate hireDate = null;
+
+                    while (hireDate == null) {
+                        System.out.print("Hire Date (yyyy-MM-dd): ");
+                        String input = scanner.next();
+
+                        try {
+                            hireDate = LocalDate.parse(input);
+                        } catch (DateTimeParseException e) {
+                            System.out.println("Invalid date. Use the format yyyy-MM-dd, for example 2025-03-15.");
+                        }
+                    }
+
                     boolean wrongInput = true;
 
                     do {
@@ -76,7 +100,8 @@ public class EmployeeManagementConsoleAppApplication {
                                         "Developer",
                                         language,
                                         salary,
-                                        department
+                                        department,
+                                        hireDate
                                 );
                                 manageEmployee.addEmployee(developer);
                                 wrongInput = false;
@@ -93,7 +118,8 @@ public class EmployeeManagementConsoleAppApplication {
                                         "Manager",
                                         team,
                                         salary,
-                                        department
+                                        department,
+                                        hireDate
                                 );
                                 manageEmployee.addEmployee(manager);
                                 wrongInput = false;
@@ -103,7 +129,9 @@ public class EmployeeManagementConsoleAppApplication {
                         }
 
                     } while (wrongInput);
+                    scanner.nextLine();
                     break;
+
                 case 2:
                     System.out.println();
                     System.out.println();
@@ -130,31 +158,81 @@ public class EmployeeManagementConsoleAppApplication {
                         default:
                             System.out.println("Invalid Input");
                     }
+                    scanner.nextLine();
                     break;
+
                 case 4:
                     System.out.println("------SORTING BY DEPARTMENT-------");
                     manageEmployee.sortByDepartment();
                     break;
+
                 case 5:
                     System.out.println("------SORTING BY SALARY-------");
                     manageEmployee.sortBySalary();
                     break;
+
                 case 6:
                     System.out.println("------SEARCH BY DEPARTMENT-------");
                     System.out.print("Enter department: ");
                     String searchDept = scanner.next();
                     manageEmployee.searchByDepartment(searchDept);
+                    scanner.nextLine();
                     break;
+
                 case 7:
                     System.out.println("------GROUP BY DEPARTMENT-------");
                     manageEmployee.groupByDepartment();
                     break;
+
                 case 8:
+                    System.out.println("------TOP EARNERS-------");
+
+                    List<Employee> topEmployee = report.topEarners();
+
+                    if (topEmployee.isEmpty()) {
+                        System.out.println("Empty List");
+                    } else {
+                        printTable.printTopEarners(topEmployee);
+                    }
+
+                    break;
+
+                case 9:
+                    System.out.println("------AVERAGE SALARY BY DEPARTMENT-------");
+
+                    Map<String, Double> average = report.averagePerDepartment();
+
+                    if (average.isEmpty()) {
+                        System.out.println("Empty List");
+                    }else{
+                        printTable.printAverageByDepartment(average);
+                    }
+                    break;
+
+                case 10:
+                    System.out.println("------HIRED IN THE LAST YEAR-------");
+
+                    List<Employee> recentEmployees = report.employeesHiredLastYear(LocalDate.now().minusYears(1));
+
+                    if (recentEmployees.isEmpty()){
+                        System.out.println("Empty List");
+                    }else{
+                        printTable.print(recentEmployees);
+                    }
+
+                    break;
+
+                case 11:
                     check = false;
                     System.out.println("Exiting program..");
                     break;
+
                 default:
                     System.out.println("Invalid Option");
+            }
+            if (check) {
+                System.out.print("\nPress Enter to continue...");
+                scanner.nextLine();
             }
         } while (check);
 
