@@ -1,5 +1,7 @@
 package com.example.employee_management_console_app;
 
+import java.time.LocalDate;
+
 public abstract class Employee {
 
     private int id;
@@ -9,8 +11,9 @@ public abstract class Employee {
     private String type;
     private double salary;
     private String department;
+    private LocalDate hireDate;
 
-    public Employee (int id, String name, int age, String gender, String type, double salary, String department){
+    public Employee (int id, String name, int age, String gender, String type, double salary, String department, LocalDate hireDate){
         this.id = id;
         this.name = name;
         this.age = age;
@@ -18,6 +21,7 @@ public abstract class Employee {
         this.type = type;
         this.salary = salary;
         this.department = department;
+        this.hireDate = hireDate;
     }
 
     public int getId() {
@@ -46,6 +50,10 @@ public abstract class Employee {
 
     public String getDepartment() {
         return department;
+    }
+
+    public LocalDate getHireDate() {
+        return hireDate;
     }
 
     public String getProgrammingLanguage() {
