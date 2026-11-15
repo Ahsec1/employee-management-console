@@ -7,6 +7,8 @@ mini project for practicing core Object-Oriented Programming concepts in Java: e
 - Master the four pillars of OOP with real code, not just definitions.
 - Understand when to use inheritance vs. composition.
 - Write clean, well-encapsulated classes.
+- Choose the right collection for the right problem. 
+- Understand generics deeply enough to write type-safe reusable code.
 
 ## Topics Covered
 
@@ -16,14 +18,10 @@ mini project for practicing core Object-Oriented Programming concepts in Java: e
 - Polymorphism (compile-time vs run-time)
 - Abstraction: abstract classes vs interfaces
 - `equals()`, `hashCode()`, `toString()`
-
-## Mini Project — Phase 1
-
-Model `Employee`, `Manager`, and `Developer` classes using inheritance and encapsulation. Store them in an `ArrayList` and print a formatted report.
-
-### Expected Output
-
-A working console app that adds, lists, and filters employees by type, demonstrating correct use of inheritance and polymorphism.
+- `List`, `Set`, `Map`, `Queue`, `Deque` — implementations & complexity
+- `ArrayList` vs `LinkedList`, `HashMap` vs `TreeMap` vs `LinkedHashMap`
+- Comparable vs Comparator 
+- Generics: bounded types, wildcards (`? extends`, `? super`)
 
 ## Project Structure
 
@@ -34,10 +32,19 @@ Employee_Management_Console_App/
 │     ├── com.example.employee_management_console_app
 │       ├── Developer.java
 │       ├── Employee.java
+│       ├── EmployeeComparator.java
 │       ├── EmployeeManagementConsoleAppApplication.java
 │       └── EmployeeManager.java
 │       └── Manager.java
 └── README.md
+
+## Mini Project — Phase 1
+
+Model `Employee`, `Manager`, and `Developer` classes using inheritance and encapsulation. Store them in an `ArrayList` and print a formatted report.
+
+### Expected Output
+
+A working console app that adds, lists, and filters employees by type, demonstrating correct use of inheritance and polymorphism.
 
 ### `Developer.java`
 - this is the developer class with states that can only be found in the developer class (e.g. programming language)
@@ -54,11 +61,26 @@ Employee_Management_Console_App/
 - handles the console menu and user input for adding, listing, and filtering employees
 
 ### `EmployeeManager.java`
-- this class manages the collection of employees using an `ArrayList<Employee>`
+- this class manages the collection of employees using a `Map<Integer, Employee>`, keyed by employee ID
 - contains the methods for adding an employee, listing all employees, and filtering employees by type (`Manager` or `Developer`)
-- prints the formatted report using the `printTable()` method and display a table to both the filter and display list features
+- contains sorting methods (`sortBySalary()`, `sortByDepartment()`) that sort a copy of the employee list using `EmployeeComparator`
+- contains `searchByDepartment(String)` and `searchBySalaryRange(double, double)` for scanning the map's values by field
+- contains `groupByDepartment()`, which builds a `Map<String, List<Employee>>` of employees grouped by department and display it
+- prints the formatted report using the `printTable()` method and displays a table for the list, filter, sort, search, and group features
 
 ### `Manager.java`
 - this is the manager class with states that can only be found in the manager class (e.g. team)
 - extends `Employee` and uses `super` to pass the shared states to the parent constructor
-- overrides the getter `getTeam()` for it to either return null or a value
+- overrides the getter `getTeam()` for it to either return null or a value.
+
+## Mini Project — Phase 2
+
+Replace raw arrays with `Map<Integer, Employee>`, addsearch/sort by salary or department using `Comparator`.
+
+### Expected Output
+
+Console app supports sorting, searching, and grouping employees by department using a `Map<String,List<Employee>>`.
+
+### `EmployeeComparator.java`
+- implements `Comparator<Employee>` for sorting employees
+- takes a `SortBy` mode (`SALARY` or `DEPARTMENT`) through its constructor, so the same class can sort by either field depending on what's passed in when it's created
