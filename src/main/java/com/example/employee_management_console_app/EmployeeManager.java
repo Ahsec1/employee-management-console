@@ -1,9 +1,8 @@
 package com.example.employee_management_console_app;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.Collection;
+import java.util.Collections;
 
 public class EmployeeManager {
 
@@ -13,39 +12,7 @@ public class EmployeeManager {
         employees = new HashMap<>();
     }
 
-    private String show(Object value) {
-        return value == null ? "-" : value.toString();
-    }
-
-    private String header() {
-        return String.format("| %-5s | %-20s | %-3s | %-7s | %-10s | %-15s | %-12s | %-20s | %-9s |",
-                "ID", "Name", "Age", "Gender", "Type", "Department", "Salary", "Programming Language", "Team Assigned");
-    }
-
-    private String row(Employee e) {
-        return String.format( "| %-5d | %-20.20s | %-3d | %-7s | %-10s | %-15.15s | %-12.2f | %-20.20s | %-13s |",
-                e.getId(),
-                e.getName(),
-                e.getAge(),
-                e.getGender(),
-                e.getType(),
-                e.getDepartment(),
-                e.getSalary(),
-                show(e.getProgrammingLanguage()),
-                show(e.getTeam())
-        );
-    }
-
-    private void printTable(Iterable<Employee> list){
-        String DIVIDER = "+-------+----------------------+-----+---------+------------+--------------+-----------------+----------------------+---------------+";
-        System.out.println(DIVIDER);
-        System.out.println(header());
-        System.out.println(DIVIDER);
-        for (Employee emp : list) {
-            System.out.println(row(emp));
-        }
-        System.out.println(DIVIDER);
-    }
+    EmployeeTablePrint printTable = new EmployeeTablePrint();
 
     public void addEmployee(Employee employee){
         if (employees.containsKey(employee.getId())) {
@@ -61,7 +28,7 @@ public class EmployeeManager {
         if(employees.isEmpty()){
             System.out.println("Empty List");
         }else{
-            printTable(employees.values());
+            printTable.print(employees.values());
         }
     }
 
@@ -81,7 +48,7 @@ public class EmployeeManager {
         if(matches.isEmpty()){
             System.out.println("No employees found with " + type + " Type");
         }else{
-            printTable(matches);
+            printTable.print(matches);
         }
     }
 
@@ -92,7 +59,7 @@ public class EmployeeManager {
         }
         List<Employee> sortedByDepartment = new ArrayList<>(employees.values());
         sortedByDepartment.sort(new EmployeeComparator(EmployeeComparator.SortBy.DEPARTMENT));
-        printTable(sortedByDepartment);
+        printTable.print(sortedByDepartment);
     }
 
     public void sortBySalary(){
@@ -102,7 +69,7 @@ public class EmployeeManager {
         }
         List<Employee> sortedBySalary = new ArrayList<>(employees.values());
         sortedBySalary.sort(new EmployeeComparator(EmployeeComparator.SortBy.SALARY));
-        printTable(sortedBySalary);
+        printTable.print(sortedBySalary);
     }
 
     public void searchByDepartment(String department){
@@ -122,7 +89,7 @@ public class EmployeeManager {
         if(employee.isEmpty()){
             System.out.println("No employees found in department: " + department);
         }else{
-            printTable(employee.values());
+            printTable.print(employee.values());
         }
     }
 
@@ -141,9 +108,12 @@ public class EmployeeManager {
 
         for(Map.Entry<String, List<Employee>> emp: mapDepartmentKey.entrySet()){
             System.out.println("Department: " + emp.getKey());
-            printTable(emp.getValue());
+            printTable.print(emp.getValue());
             System.out.println();
         }
+    }
 
+    public Collection<Employee> getAllEmployees() {
+        return Collections.unmodifiableCollection(employees.values());
     }
 }
