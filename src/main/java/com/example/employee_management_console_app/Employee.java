@@ -1,16 +1,19 @@
-public class Employee {
+package com.example.employee_management_console_app;
+
+public abstract class Employee {
 
     private int id;
     private String name;
     private int age;
     private String gender;
-    private String role;
+    private String type;
 
-    public Employee (int id, String name, int age, String gender, String role){
+    public Employee (int id, String name, int age, String gender, String type){
+        this.id = id;
         this.name = name;
         this.age = age;
         this.gender = gender;
-        this.role = role;
+        this.type = type;
     }
 
     public int getId() {
@@ -29,11 +32,16 @@ public class Employee {
         return gender;
     }
 
-    public String getRole(){
-        return role;
+    public String getType(){
+        return type;
     }
 
-    public void printEmployee(){
-        System.out.printf("name - %s\n", name);
+    public String getProgrammingLanguage() {
+        return null;
+    }
+
+    public Integer getTeam() {
+        return null;
     }
 }
+
