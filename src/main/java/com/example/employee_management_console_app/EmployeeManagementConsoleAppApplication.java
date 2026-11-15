@@ -22,7 +22,11 @@ public class EmployeeManagementConsoleAppApplication {
             System.out.println("1. Add Employee");
             System.out.println("2. List Employees");
             System.out.println("3. Filter by Type");
-            System.out.println("4. Exit");
+            System.out.println("4. Sort by Department");
+            System.out.println("5. Sort by Salary");
+            System.out.println("6. Search by Department");
+            System.out.println("7. Grouped by Department");
+            System.out.println("8. Exit");
             System.out.println("=================================");
             System.out.print("Enter choice: ");
 
@@ -45,6 +49,12 @@ public class EmployeeManagementConsoleAppApplication {
                     System.out.print("Gender: ");
                     String gender = scanner.next();
 
+                    System.out.print("Salary: ");
+                    double salary = scanner.nextDouble();
+
+                    System.out.print("Department: ");
+                    String department = scanner.next();
+
                     boolean wrongInput = true;
 
                     do {
@@ -64,7 +74,9 @@ public class EmployeeManagementConsoleAppApplication {
                                         age,
                                         gender,
                                         "Developer",
-                                        language
+                                        language,
+                                        salary,
+                                        department
                                 );
                                 manageEmployee.addEmployee(developer);
                                 wrongInput = false;
@@ -79,7 +91,9 @@ public class EmployeeManagementConsoleAppApplication {
                                         age,
                                         gender,
                                         "Manager",
-                                        team
+                                        team,
+                                        salary,
+                                        department
                                 );
                                 manageEmployee.addEmployee(manager);
                                 wrongInput = false;
@@ -118,6 +132,24 @@ public class EmployeeManagementConsoleAppApplication {
                     }
                     break;
                 case 4:
+                    System.out.println("------SORTING BY DEPARTMENT-------");
+                    manageEmployee.sortByDepartment();
+                    break;
+                case 5:
+                    System.out.println("------SORTING BY SALARY-------");
+                    manageEmployee.sortBySalary();
+                    break;
+                case 6:
+                    System.out.println("------SEARCH BY DEPARTMENT-------");
+                    System.out.print("Enter department: ");
+                    String searchDept = scanner.next();
+                    manageEmployee.searchByDepartment(searchDept);
+                    break;
+                case 7:
+                    System.out.println("------GROUP BY DEPARTMENT-------");
+                    manageEmployee.groupByDepartment();
+                    break;
+                case 8:
                     check = false;
                     System.out.println("Exiting program..");
                     break;
