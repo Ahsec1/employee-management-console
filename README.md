@@ -2,7 +2,7 @@
 
 mini project for practicing core Object-Oriented Programming concepts in Java: encapsulation, inheritance, and polymorphism.
 
-[![CI](https://github.com/Ahsec1/employee-management-console/actions/workflows/ci.yml/badge.svg?branch=feature%2Fci-workflow)](https://github.com/Ahsec1/employee-management-console/actions/workflows/ci.yml)
+[![CI](https://github.com/Ahsec1/employee-management-console/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/Ahsec1/employee-management-console/actions/workflows/ci.yml)
 
 ## Features
 
